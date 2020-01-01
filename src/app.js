@@ -3,6 +3,7 @@ const express = require('express')
 const hbs = require('hbs')
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
+const aqi = require('./utils/aqi')
 
 
 const app = express()
@@ -53,6 +54,16 @@ app.get('/weather', (req, res) => {
                 forecast: forecastData,
                 location,
                 address: req.query.address
+            })
+        })
+        aqi(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return res.send({ error })
+            }
+
+            res.send({
+                aqi: aqi,
+               
             })
         })
     })
